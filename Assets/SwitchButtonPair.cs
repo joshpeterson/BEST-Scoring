@@ -12,13 +12,17 @@ namespace BESTScoring
 	{
 		private string _label;
 		private SwitchButtonPairOrientation _orientation;
-
+		private GUIStyle _firstButtonStyle;
+		private GUIStyle _secondButtonStyle;
+		
 		private bool _firstSelected = true;
 		
-		public SwitchButtonPair (string label, SwitchButtonPairOrientation orientation)
+		public SwitchButtonPair (string label, SwitchButtonPairOrientation orientation, GUIStyle firstButtonStyle, GUIStyle secondButtonStyle)
 		{
 			_label = label;
 			_orientation = orientation;
+			_firstButtonStyle = firstButtonStyle;
+			_secondButtonStyle = secondButtonStyle;
 		}
 
 		public bool FirstSelected
@@ -40,16 +44,26 @@ namespace BESTScoring
 
 			var initialColor = GUI.color;
 
-			if (_firstSelected)
-				GUI.color = Color.red;
+			if (_firstSelected) 
+			{
+				if (_orientation == SwitchButtonPairOrientation.Horizontal)
+					GUI.color = Color.white;
+				else
+					GUI.color = Color.red;
+			}
 			else
 				GUI.color = Color.gray;
 
-			if (GUI.Button(new Rect(0, 0, width, height), _label))
+			if (GUI.Button(new Rect(0, 0, width, height), "", _firstButtonStyle))
 				_firstSelected = true;
 
-			if (!_firstSelected)
-				GUI.color = Color.blue;
+			if (!_firstSelected) 
+			{
+				if (_orientation == SwitchButtonPairOrientation.Horizontal)
+					GUI.color = Color.white;
+				else
+					GUI.color = Color.blue;
+			}
 			else
 				GUI.color = Color.gray;
 
@@ -61,8 +75,17 @@ namespace BESTScoring
 				secondButtonTop = 0;
 			}
 
-			if (GUI.Button(new Rect(secondButtonLeft, secondButtonTop, width, height), _label))
+			if (_orientation == SwitchButtonPairOrientation.Horizontal)
+			{
+				if (_firstSelected)
+					_label = "Coop with Right";
+				else
+					_label = "Solo Red";
+			}
+
+			if (GUI.Button(new Rect(secondButtonLeft, secondButtonTop, width, height), "", _secondButtonStyle))
 				_firstSelected = false;
+			
 
 			GUI.color = initialColor;
 

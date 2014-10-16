@@ -21,12 +21,17 @@ public class LabelOutputPair
 	public void Draw(int left, int top, int width, int height)
 	{
 		GUI.BeginGroup(new Rect(left, top, width, height));
-		GUI.Box(new Rect(0, 0, width - 40, height), string.Empty);
 		var style = new GUIStyle();
-		style.fontSize = 30;
+		style.fontSize = 50;
 		style.normal.textColor = _color;
-		GUI.Label (new Rect(5,height/3, 100, 40), string.Format ("{0}:", _label), style);
-		GUI.Label (new Rect(300, height/3, 100, 40), _output, style);
+
+		var shadowStyle = new GUIStyle(style);
+		shadowStyle.normal.textColor = Color.grey;
+
+		GUI.Label (new Rect(1,height/5+1, 100, 40), string.Format ("{0}:", _label), shadowStyle);
+		GUI.Label (new Rect(0,height/5, 100, 40), string.Format ("{0}:", _label), style);
+		GUI.Label (new Rect(width/3+1, height*4/7+1, 100, 40), _output, shadowStyle);
+		GUI.Label (new Rect(width/3, height*4/7, 100, 40), _output, style);
 		GUI.EndGroup();
 	}
 }
